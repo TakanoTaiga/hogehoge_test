@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+    auto_2024:
+        container_name: auto_2024_trt
+        build:
+            context: ./docker
+            dockerfile: core1_2024.dockerfile
+            args:
+                - TENSORRT_VERSION=8.6
+                - CUDNN_VERSION=8.8
+                - PYTHON_VERSION=3.10
+                - ROS_DISTRO=humble
+        network_mode: host
+        runtime: nvidia
+        environment:
+            - DISPLAY=$DISPLAY
+        volumes:
+            - ./workspace:/workspace
+            - /tmp/.X11-unix:/tmp/.X11-unix
+            - ./repos:/repos
+            - ./models:/models
+        privileged: true
+        working_dir: /workspace
+        tty: true
+        command: bash
